@@ -1,0 +1,24 @@
+parameters:
+ workers: 2
+ masters: 3
+ name_prefix: cluster
+ cidr: 192.168.200.0/24
+ iso: /tmp/iso
+
+{{name_prefix}}-net:
+ type: network
+ dhcp: true
+ cidr: {{ cidr }}
+
+{% for num in range(1,4) %}
+{{name_prefix}}-master-{{ num }}:
+ type: vm
+ iso: {{ iso }}
+ nets:
+ - name: net
+ memory: 16384
+ numcpus: 4
+ disks:
+ - 100
+{% endfor %}
+
